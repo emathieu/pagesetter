@@ -1,0 +1,65 @@
+<!--[* the divs are already being displayed. Let's hide them now and get them just when it's neccessary *]-->
+	$('mymap_mapcontrolbox<!--[$map.id]-->').hide();
+	$('mymap_export<!--[$map.id]-->').hide();
+	$('mymap_noscript<!--[$map.id]-->').hide();
+	$('mymap_export<!--[$map.id]-->').removeClassName('mymap_hidden');
+	$('mymap_closefullscreen<!--[$map.id]-->').removeClassName('mymap_hidden');
+	$('mymap_graybackground<!--[$map.id]-->').removeClassName('mymap_hidden');
+	$('mymap_mapheader<!--[$map.id]-->').removeClassName('mymap_hidden');
+	$('mymap_closefullscreen<!--[$map.id]-->').hide();
+	$('mymap_graybackground<!--[$map.id]-->').hide();
+
+
+	var map<!--[$map.id]--> = new mxn.Mapstraction('map<!--[$map.id]-->', '<!--[$provider]-->');
+	var centerpoint = new mxn.LatLonPoint(<!--[$map.centerlat]-->,<!--[$map.centerlng]-->);
+	map<!--[$map.id]-->.setCenterAndZoom(centerpoint,<!--[$map.zoomfactor]-->);
+ 	map<!--[$map.id]-->.setMapType(mxn.Mapstraction.<!--[$map.maptype]-->);
+ 	map<!--[$map.id]-->.addControls({
+		pan: true, 
+		overview: <!--[$map_overview]-->,
+		zoom: 'small',
+		map_type: true 
+		});
+<!--[if $markers|@count gt 0]-->
+	function drawMarkers<!--[$map.id]-->() {
+	<!--[foreach from=$markers item="marker"]-->
+		<!--[if $marker.lat ne "" and $marker.lng ne ""]-->
+	var marker<!--[$marker.id]--> = new mxn.Marker( new mxn.LatLonPoint(<!--[$marker.lat]-->,<!--[$marker.lng]-->));
+	marker<!--[$marker.id]-->.setLabel("<!--[$marker.title|escape:javascript]-->");
+	<!--[if $marker.text ne ""]-->	
+	marker<!--[$marker.id]-->.addData({'infoBubble': "<!--[$marker.text|escape:javascript]-->"});
+			<!--[/if]-->
+		<!--[/if]-->
+	map<!--[$map.id]-->.addMarker(marker<!--[$marker.id]-->);
+	<!--[/foreach]-->
+	}
+	drawMarkers<!--[$map.id]-->();
+<!--[/if]-->
+
+<!--[if $waypoints|@count gt 1]-->
+	change(document.location.pnbaseURL + '<!--[$map.url_wps]-->','mymap_wps_<!--[$map.id]-->');
+<!--[elseif $waypoints|@count eq 1]-->
+	<!--[foreach from=$waypoints item="waypoint"]-->
+	var markerX<!--[$waypoint.id]--> = new mxn.Marker( new mxn.LatLonPoint(<!--[$waypoint.lat]-->,<!--[$waypoint.lng]-->));
+	map<!--[$map.id]-->.addMarker(markerX<!--[$waypoint.id]-->);
+	<!--[/foreach]-->
+	$('mymap_indicator_<!--[$map.id]-->').hide();
+<!--[else]-->
+	$('mymap_indicator_<!--[$map.id]-->').hide();
+<!--[/if]-->
+
+	map<!--[$map.id]-->.click.addHandler(function(en, es, ea) { 
+		var point = ea.location.toString();
+		var coords = point.split(",");
+		var newZoom = map<!--[$map.id]-->.getZoom() + 1;
+<!--[if $clickzoom eq 1]-->
+	map<!--[$map.id]-->.setCenterAndZoom(ea.location,newZoom);
+<!--[/if]-->
+	document.getElementById("lat").value = ea.location.lat.toLocaleString();	   
+	document.getElementById("lng").value = ea.location.lng.toLocaleString();
+ 	});
+
+	map<!--[$map.id]-->.autoCenterAndZoom();
+<!--[if ($markers|@count eq 1 and $waypoints|@count eq 0) or ($markers|@count eq 0 and $waypoints|@count eq 1)]-->
+	map<!--[$map.id]-->.setZoom(<!--[$map.zoomfactor]-->);
+<!--[/if]-->

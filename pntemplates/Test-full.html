@@ -1,0 +1,28 @@
+
+<!-- begin of modules/pagesetter/pntemplates/__template-full.html -->
+<h1><!--[$core.title]--></h1>
+Title: <!--[$title]--><br/>
+relation: 
+YOU MUST CREATE A LIST TEMPLATE FOR THE TARGET PUB TYPE NAMED "journal-inlineList.html"<br/>
+<!--[nocache]-->
+<!--[pagesetter_createFilter filter="relation:rel:`$core.pid`" assign=f]-->
+<!--[pagesetter_createFilter filter="relation:rel:`$core.pid`" assign=f]-->
+<!--[/nocache]-->
+<br/>
+<!--[mediashare_getAlbum albumId=16 assign=album]-->
+album: <!--[mediashare_mainItemThumbnail album=$album]--><br>
+<!--[mediashare_albumLink album=$album mode='url']-->
+media: <!--[$media]--><br/>
+publication:
+<!--[pnmodapifunc modname=pagesetter func=getPub tid=3 pid=$publication assign=p]-->
+<!--[$p.title]--><br/>
+mypub: <!--[$mypub.title]--><br/>
+date: <!--[$date]--><br/>
+Media HTML: <!--[$mediahtml]--><br/>
+map: <!--[$map]--><br/>
+attachment: <!--[$attachment]--><br/>
+web_links: <!--[web_link lid=$web_links]--><br/>
+<br/><br/>
+
+<!--[$core.printThis]--> | <!--[$core.sendThis]--> | Hits: <!--[nocache]--><!--[$core.hitCount]--><!--[/nocache]--> | <!--[nocache]--><!--[$core.editThis]--><!--[/nocache]-->
+<!-- end of modules/pagesetter/pntemplates/__template-full.html -->

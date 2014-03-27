@@ -1,0 +1,215 @@
+<!--[* Smarty *]-->
+<!--[pnsecauthaction realm="0" comp="mediashare::" inst="::" level="ACCESS_READ" assign="authmediashare"]-->
+<!--[pnsecauthaction realm="0" comp="pagesetter::" inst="::" level="ACCESS_EDIT" assign="auth"]-->
+<!--[if $albumId != "" ]-->
+<!--[mediashare_getAlbum albumId=$albumId assign=album]-->
+<!--[/if]-->
+<!--[pagesetter_createFilter filter="pages:rel:`$core.pid`" assign=f]-->
+<!--[pagesetter_inlinePubList tid=1 filter=$f]-->
+<!--[if $authmediashare]-->
+	<!--[if $image_locale != "" ]-->
+        	<!--[assign var='image_gauche' value="<a href='`image_locale.url`'><img src='`$image_locale.thumbnailUrl`' class='thumbnail' /></a>" ]-->
+        <!--[/if]-->
+        <!--[if $image != "" ]-->
+        	<!--[if $image_gauche == "" ]-->
+        		<!--[assign var='image_gauche' value="<a href='$image'><img src='$image&thumbnail=1' alt='$imagetext' title='$imagetext' class='thumbnail' /></a>" ]-->
+        	<!--[elseif $image_droite == "" ]-->
+        		<!--[assign var='image_droite' value="<a href='$image'><img src='$image&thumbnail=1' alt='$imagetext' title='$imagetext' class='thumbnail' /></a>" ]-->
+        	<!--[/if]-->
+        <!--[/if]-->
+        <!--[if $image_media != ""]-->
+        	<!--[if $image_gauche == "" ]-->
+        		<!--[assign var='image_gauche' value="$image_media" ]-->
+        	<!--[elseif $image_droite == "" ]-->
+        		<!--[assign var='image_droite' value="$image_media" ]-->
+        	<!--[/if]-->
+        <!--[/if]-->
+        <!--[if $video_mediashare != ""]-->
+        	<!--[assign var='image_droite' value="<table><tr><td align='center'>$video_mediashare</td></tr><tr><td align='center' class='pn-sub'>Cliquez sur l'image pour voir la video</td></tr></table>" ]-->
+        <!--[/if]-->
+	<!--[if $image_locale2 != "" ]-->
+        	<!--[if $image_gauche == "" ]-->
+        		<!--[assign var='image_gauche' value="<a href='`image_locale2.url`'><img src='`$image_locale2.thumbnailUrl`' class='thumbnail' /></a>" ]-->
+        	<!--[elseif $image_droite == "" ]-->
+        		<!--[assign var='image_droite' value="<a href='`image_locale2.url`'><img src='`$image_locale2.thumbnailUrl`' class='thumbnail' /></a>" ]-->
+        	<!--[elseif $image_centre == "" ]-->
+        		<!--[assign var='image_centre' value="<a href='`image_locale2.url`'><img src='`$image_locale2.thumbnailUrl`' class='thumbnail' /></a>" ]-->
+        	<!--[/if]-->
+        <!--[/if]-->
+	<!--[if $image_locale3 != "" ]-->
+        	<!--[if $image_centre == "" ]-->
+        		<!--[if $taille_reelle_3 ]-->
+        			<!--[assign var='image_centre' value="<a href='`image_locale3.url`'><img src='`$image_locale3.Url`'  align='top' border='0' /></a>" ]-->
+        		<!--[else]-->
+        			<!--[assign var='image_centre' value="<a href='`image_locale3.url`'><img src='`$image_locale3.thumbnailUrl`' class='thumbnail' /></a>" ]-->
+        		<!--[/if]-->
+        	<!--[/if]-->
+        <!--[/if]-->
+        <!--[if $albumId != ""]-->
+        	<!--[if $image_gauche == "" ]-->
+			<!--[mediashare_mainItemThumbnail album=$album assign=image_gauche]-->
+        	<!--[elseif $image_droite == "" ]-->
+			<!--[mediashare_mainItemThumbnail album=$album assign=image_droite]-->
+        	<!--[elseif $image_centre == "" ]-->
+			<!--[mediashare_mainItemThumbnail album=$album assign=image_centre]-->
+        	<!--[/if]-->
+        <!--[/if]-->
+        <!--[if $core.topic.image != "" ]-->
+        	<!--[if $image_gauche == "" ]-->
+        		<!--[assign var='image_gauche' value="<a href='index.php?module=pagesetter&topic=`$core.topic.id`'><img src='images/topics/`$core.topic.image`' alt='`$core.topic.text`' title='`$core.topic.text`' align='left' border='0'></a>" ]-->
+        	<!--[/if]-->
+        <!--[/if]-->
+<!--[/if]-->
+<table cellspacing="0" width="100%">
+  <tr>
+     <td align="left"><!--[$nav.prev]--></td>
+     <td align="center"><!--[pagesetter_title title=$core.title]--></td>
+     <td align="right"><!--[$nav.next]--></td>
+  </tr>
+</table>
+<table cellspacing="0" width="100%">
+ <tr>
+  <td>
+   <table width="100%" border=0>
+    <tr>
+     <td align="center">
+      <H1><!--[$Titre]--></H1>
+     </td>
+    </tr>
+    <tr>
+     <td align="right">
+      <!--[if $datefin != "" ]-->
+      du <!--[$Date|pndate_format:"%A %d %B %Y"]--><br />au <!--[$datefin|pndate_format:"%A %d %B %Y"]-->
+      <!--[else]-->
+      <!--[$Date|pndate_format:"%A %d %B %Y"]-->
+      <!--[/if]-->
+     </td>
+    </tr>
+   </table>
+  </td>
+ </tr>
+ <tr>
+  <td>
+   <table width="100%">
+     <tr>
+       <td style="padding: 5px;" valign="top">
+        <!--[if $authmediashare]-->
+        	<!--[$image_gauche]-->
+        <!--[elseif $core.topic.image != "" ]-->
+        	<a href="index.php?module=pagesetter&topic=<!--[$core.topic.id]-->">
+        	<img src="images/topics/<!--[$core.topic.image]-->" alt="<!--[$core.topic.text]-->" title="<!--[$core.topic.text]-->" align="left" border="0">
+        	</a>
+        <!--[/if]-->
+       </td>
+       <td style="padding: 5px;" valign="top">
+        <!--[$teaser]-->
+        <!--[$Info]-->
+       </td>
+       <td style="padding: 5px;" valign="top" align="right">
+          <!--[$image_droite]-->
+       </td>
+     </tr>
+     <!--[if $image_centre != "" ]-->
+     <tr>
+       <td style="padding: 5px;" valign="top" colspan="3" align="center">
+        <!--[$image_centre]-->
+       </td>
+     </tr>
+     <!--[/if]-->
+    </table>
+  </td>
+ </tr>
+ <tr>
+  <td style="background-color: #f0f0f0;">
+   <table width="100%" border=0>
+    <tr>
+     <td width="25%" align="center" class="pn-sub" valign="bottom">
+      <!--[if $texte_reference != "" ]-->
+      	<!--[assign var='lien1' value="<a href='$url_reference' target='_blank'>$texte_reference</a>" ]-->      
+      <!--[/if]-->
+      <!--[if $web_link1 != "" ]-->
+      	<!--[if $lien1 == "" ]-->
+      		<!--[web_link lid=$web_link1 assign='lien1']-->      
+      	<!--[else]-->       
+      		<!--[web_link lid=$web_link1 assign='lien2']-->      
+      	<!--[/if]-->
+      <!--[/if]-->
+      <!--[if $web_link2 != "" ]-->
+      	<!--[if $lien1 == "" ]-->
+      		<!--[web_link lid=$web_link2 assign='lien1']-->      
+      	<!--[elseif $lien2 == "" ]-->       
+      		<!--[web_link lid=$web_link2 assign='lien2']-->      
+      	<!--[/if]-->
+      <!--[/if]-->
+      <!--[if $texte_reference2 != "" ]-->
+      	<!--[if $lien1 == "" ]-->
+      		<!--[assign var='lien1' value="<a href='$url_reference2' target='_blank'>$texte_reference2</a>" ]-->      
+      	<!--[elseif $lien2 == "" ]-->       
+      		<!--[assign var='lien2' value="<a href='$url_reference2' target='_blank'>$texte_reference2</a>" ]-->      
+      	<!--[/if]-->
+      <!--[/if]-->
+      <!--[if $lien2 != "" ]-->
+      	Sites int&eacute;ressants:<br />
+      	<!--[$lien1]--> | <!--[$lien2]-->
+      <!--[elseif $lien1	 != "" ]-->
+      	Site int&eacute;ressant:<br />
+      	<!--[$lien1]-->
+      <!--[/if]-->
+      <!--[if $miroir != "" ]-->
+      <br /><a href="index.php?module=PostWrap&amp;page=miroir/<!--[$miroir]-->">Miroir</a>
+      <!--[/if]-->
+     </td>
+     <td width="25%" align="center" class="pn-sub" valign="bottom">
+      <!--[if $fichier != "" ]-->
+      <a href="<!--[$fichier.url]-->">
+      <!--[$fichier.type|ps_icon]-->
+      <!--[$texte_fichier]--></a>
+      <!--[if $fichier2 != "" ]-->
+      <br /><a href="<!--[$fichier2.url]-->">
+      <!--[$fichier2.type|ps_icon]-->
+      <!--[$texte_fichier2]--></a>
+      <!--[/if]-->
+      <!--[if $fichier3 != "" ]-->
+      <br /><a href="<!--[$fichier3.url]-->">
+      <!--[$fichier3.type|ps_icon]-->
+      <!--[$texte_fichier3]--></a>
+      <!--[/if]-->
+      <!--[else]-->
+      &nbsp;
+      <!--[/if]-->
+     </td>
+     <td width="25%" align="center" class="pn-sub" valign="bottom">
+<!--[pagesetter_createFilter filter="autrepage:rel:`$core.pid`" assign=f]-->
+<!--[pagesetter_readpubCount tid=1 filter=$f assign=pubCount]-->
+      <!--[if $autrepub != "" || $pubCount > 0]-->A lire aussi:<br /><!--[/if]-->
+      <!--[if $autrepub != ""]--><!--[$autrepub]--><!--[/if]-->
+<!--[if $pubCount > 0]-->
+      <!--[if $autrepub != "" ]--><br /><!--[/if]-->
+<!--[pagesetter_inlinePageList tpl=relatedList tid=1 filter=$f orderby=Date:asc,Titre:asc pubcnt=14 dateDebut=$Date dateFin=$datefin]-->
+<!--[/if]-->
+     </td>
+     <td width="25%" align="center" class="pn-sub" valign="bottom">
+      <!--[if $albumId != "" and $authmediashare]--><a href="<!--[mediashare_albumLink album=$album mode='url']-->">Photos</a>
+      <!--[elseif $photoshare != "" and $authmediashare]--><a href="<!--[$photoshare]-->">Photos</a>
+      <!--[elseif $oldphotoshare != "" ]--><!--[$oldphotoshare]--><!--[/if]-->
+	  <!--[pagesetter_createFilter filter="pages:rel:`$core.pid`" assign=f]-->
+	  <!--[pagesetter_readpubCount tid=10 filter=$f assign=pubCount]-->
+      <!--[if $pubCount > 0]-->
+     	<!--[if $albumId != "" and $authmediashare]--><br /><!--[/if]-->
+        <a href="<!--[pagesetter_relatedMapLink tid=10 filter="pages:rel:`$core.pid`"]-->">Carte</a>
+      <!--[/if]-->
+     </td>
+    </tr>
+   </table>
+  </td>
+ </tr>
+</table>
+<p>
+<div class="pn-sub">Par: <!--[$core.author]--> <!--[$core.created|pndate_format:"%A %d %B %Y"]--></div><p>
+
+<table width="100%">
+  <tr>
+    <td align="center"><!--[$core.printThis]--> | <!--[$core.sendThis]--> | <!--[nocache]--><!--[$core.editThis]--><!--[/nocache]--></td>
+  </tr>
+</table>
+

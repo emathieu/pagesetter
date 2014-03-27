@@ -1,0 +1,63 @@
+<!--[* Smarty *]-->
+<!--[pagesetter_pubBrowser]-->
+<table cellspacing="0" width="100%">
+  <tr>
+     <td align="left"><!--[$nav.prev]--></td>
+     <td align="center"><!--[pagesetter_title title=$core.title]--></td>
+     <td align="right"><!--[$nav.next]--></td>
+  </tr>
+</table>
+<table cellspacing="0" width="100%">
+ <tr>
+  <td>
+   <table width="100%" border=0>
+    <tr>
+     <td align="center">
+      <H1><!--[$titre]--></H1>
+     </td>
+    </tr>
+    <tr>
+     <td align="right">
+      <!--[if $datefin != "" ]-->
+      du <!--[$Date|pndate_format:"%A %d %B %Y"]--><br>au <!--[$datefin|pndate_format:"%A %d %B %Y"]-->
+      <!--[else]-->
+      <!--[$Date|pndate_format:"%A %d %B %Y"]-->
+      <!--[/if]-->
+     </td>
+    </tr>
+   </table>
+  </td>
+ </tr>
+ <tr>
+  <td>
+   <table width="100%">
+     <tr>
+       <td style="padding: 5px;" valign="top">
+        <!--[if $image != "" ]-->
+        <img src="<!--[$image.url]-->" align="top" border="0"><br>
+        <!--[/if]-->
+       </td>
+       <td style="padding: 5px;" valign="top">
+        <!--[$teaser]-->
+        <!--[$texte]-->
+       </td>
+       <td style="padding: 5px;" valign="top" align="right">
+       </td>
+      </tr>
+    </table>
+  </td>
+ </tr>
+</table>
+<p>
+<div class="pn-sub">Par: <!--[$core.author]--> <!--[$core.created|pndate_format:"%A %d %B %Y"]--></div><p>
+
+<table width="100%">
+  <tr>
+    <td align="center"><!--[$core.printThis]--> | <!--[$core.sendThis]--> | Hits: <!--[nocache]--><!--[$core.hitCount]--><!--[/nocache]--> | <!--[nocache]--><!--[$core.editThis]--><!--[/nocache]-->
+    </td>
+    <!--[if $core.pageCount > 1 ]-->
+    <td align="right">(Page <!--[$core.page+1]--> de <!--[$core.pageCount]-->)</td>
+    <!--[/if]-->
+  </tr>
+</table>
+<!-- End modules/pagesetter/pntemplates/__template-full.html -->

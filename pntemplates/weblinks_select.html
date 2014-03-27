@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Web Link selection</title>
+<link rel="stylesheet" href="<!--[$stylepath]-->/style.css" type="text/css" media="screen,projection,print" />
+<script src="modules/pagesetter/pnjavascript/findweblinks.js" type="text/javascript"></script>
+<script src="javascript/ajax/prototype.js" type="text/javascript"></script>
+<!--[if $modCssURL != '']-->
+<link rel="StyleSheet" href="<!--[$modCssURL]-->" type="text/css"/>
+<!--[/if]-->
+<!--[if $themeCssURL != '']-->
+<link rel="StyleSheet" href="<!--[$themeCssURL]-->" type="text/css"/>
+<!--[/if]-->
+</head>
+<body>
+<form id="pnFormForm" method="get">
+<br />
+<select id="category" name="category" onchange="location.href='index.php?module=pagesetter&amp;type=weblinks&amp;func=selectlink&amp;cid='+category.value;">
+<!--[if $categories|@count gt 0]-->
+	<!--[foreach from=$categories item="category"]-->
+	<!--[if $category.cat_id == $cid ]-->
+	<option value="<!--[$category.cat_id]-->" selected="selected"><!--[$category.title]--></option>
+	<!--[else]-->
+	<option value="<!--[$category.cat_id]-->"><!--[$category.title]--></option>
+	<!--[/if]-->
+	<!--[/foreach]-->
+<!--[/if]-->
+</select>
+<br />
+<select id="link" name="link">
+<!--[if $links|@count gt 0]-->
+	<!--[foreach from=$links item="link"]-->
+	<!--[if $link.lid == $lid ]-->
+	<option value="<!--[$link.lid]-->" selected="selected"><!--[$link.title]-->: <!--[$link.url]--></option>
+	<!--[else]-->
+	<option value="<!--[$link.lid]-->"><!--[$link.title]-->: <!--[$link.url]--></option>
+	<!--[/if]-->
+	<!--[/foreach]-->
+<!--[/if]-->
+</select>
+<br />
+<input type="submit"  id="buttonSelect" onclick="var link = document.getElementById('link').value ; weblinksPasteLink(link)" value="_PGSELECT" />
+<input type="submit" name="buttonCancel" onclick="weblinksHandleCancel()" value="_PGCANCEL" />
+</form>
+</body>
+</html>

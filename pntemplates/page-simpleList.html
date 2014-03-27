@@ -1,0 +1,7 @@
+<!--[* Smarty *]-->
+<br/><!--[if $datefin != "" ]-->
+du <!--[$Date|pndate_format:"%A %d %B %Y"]--> au <!--[$datefin|pndate_format:"%A %d %B %Y"]-->
+<!--[else]-->
+<!--[$Date|pndate_format:"%A %d %B %Y"]-->
+<!--[/if]-->
+<a class="pn-title" style="text-decoration: none;" href="<!--[$core.fullURL]-->"><!--[$core.title]--></a>

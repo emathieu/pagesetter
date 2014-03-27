@@ -1,0 +1,194 @@
+<html>
+
+<head>
+<title>Map selection</title>
+<link rel="stylesheet" href="<!--[$stylepath]-->/style.css" type="text/css" media="screen,projection,print" />
+<script src="modules/MyMap/javascript/mymap.js" type="text/javascript"></script>
+<script src="modules/MyMap/javascript/mapstraction.js" type="text/javascript"></script>
+<script src="modules/pagesetter/pnjavascript/findmymap.js" type="text/javascript"></script>
+<script src="javascript/ajax/prototype.js" type="text/javascript"></script>
+<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=<!--[$googlemapApiKey]-->">
+</script>
+<!--[if $modCssURL != '']-->
+<link rel="StyleSheet" href="<!--[$modCssURL]-->" type="text/css"/>
+<!--[/if]-->
+<!--[if $themeCssURL != '']-->
+<link rel="StyleSheet" href="<!--[$themeCssURL]-->" type="text/css"/>
+<!--[/if]-->
+
+</head>
+
+<body>
+
+<div id="mapheader<!--[$map.id]-->" style="width:<!--[$map.width]-->px;"
+class="mymap_mapheader"></div>
+<div id="mymap_indicator_<!--[$map.id]-->" class="mymap_indicator"
+style="background-image: url(modules/MyMap/pnimages/ajax.gif)"></div>
+
+<!-- mapheader -->
+
+<div id="map<!--[$map.id]-->"
+style="background-color:#ffffff;width:<!--[$map.width]-->px;height:<!--[$map.height]-->px;"></div>
+
+<div id="mymap_export<!--[$map.id]-->" class="mymap_exportpopup"
+style="position: fixed; display: none; z-index: 1100;"> <!--[pnml name="_MYMAPWAITFOREXPORT"]--><br />
+<br />
+<br />
+<br />
+<img src="modules/MyMap/pnimages/ajax.gif" /></div>
+<form id="pnFormForm">
+<table>
+	<tr>
+		<td><label for="title">Title</label>:</td>
+		<td><input type="text" id="title" name="title" maxlength="40" class="text" value="" />&nbsp;*</td>
+	</tr>
+	<tr>
+		<td><label for="text">Description</label>:</td>
+		<td><textarea id="text" name="text" class="text"></textarea></td>
+	</tr>
+	<tr>
+		<td><label for="countrycode">2-letter-country code</label>:</td>
+		<td><input type="text" id="countrycode" name="countrycode"
+			size="2" maxlength="2" class="text" value="" /></td>
+	</tr>
+	<tr>
+		<td><label for="postalcode">Postal code</label>:</td>
+		<td><input type="text" id="postalcode" name="postalcode"
+			maxlength="6" class="text" value="" minValue="0" /></td>
+	</tr>
+	<tr>
+		<td><label for="lat">Latitude</label>:</td>
+		<td><input type="text" id="lat" name="lat" maxlength="30"
+			class="text" value="" /></td>
+	</tr>
+	<tr>
+		<td><label for="lng">Longitude</label>:</td>
+		<td><input type="text" id="lng" name="lng" maxlength="30"
+			class="text" value="" /></td>
+	</tr>
+	<tr>
+		<td><label for="placename">Name of markered place</label>:</td>
+		<td><input type="text" id="placename" name="placename"
+			maxlength="30" class="text" value="" /></td>
+	</tr>
+	<tr>
+		<td><label for="date">Date of this entry or markered
+		event</label></td>
+		<td><span class="date" style="white-space: nowrap"><input
+			type="text" id="date" name="date" maxlength="12" class="text  date"
+			value="" />&nbsp;* <img id="date_img"
+			src="javascript/jscalendar/img.gif" style="vertical-align: middle"
+			class="clickable" alt="Sélectionner une date" /></span><script
+			type="text/javascript">
+            Calendar.setup(
+                {
+                    inputField : "date",
+                    ifFormat : "%Y-%m-%d",
+                    button : "date_img",
+                    firstDay: 1
+                }
+            );
+            </script></td>
+	</tr>
+</table>
+<input type="submit" name="plg10_update" value="update / add point" onclick="return pnFormDoPostBack()" />
+<div>
+<input type="hidden" name="pnFormEventTarget" id="pnFormEventTarget" value="" />
+<input type="hidden" name="pnFormEventArgument" id="pnFormEventArgument" value="" />
+<input type="hidden" name="mid" id="mid" value="0" />
+<input type="hidden" name="id" id="id" value="0" />
+<script
+	type="text/javascript">
+<!--
+function pnFormDoPostBack(eventTarget, eventArgument)
+{
+//  var f = document.getElementById('pnFormForm');
+//  if (!f.onsubmit || f.onsubmit()) 
+//  {
+//    f.pnFormEventTarget.value = eventTarget;
+//    f.pnFormEventArgument.value = eventArgument;
+//    f.submit();
+//  }
+}
+// -->
+</script></div>
+</form>
+
+<!--[pnsecgenauthkey assign="authid"]-->
+<script type="text/javascript">
+	var map<!--[$map.id]--> = new Mapstraction('map<!--[$map.id]-->','<!--[$provider]-->');
+	var centerpoint = new LatLonPoint(<!--[$map.centerlat]-->,<!--[$map.centerlng]-->);
+	map<!--[$map.id]-->.setCenterAndZoom(centerpoint,<!--[$map.zoomfactor]-->);
+ 	map<!--[$map.id]-->.setMapType(Mapstraction.<!--[$map.maptype]-->);
+ 	map<!--[$map.id]-->.addControls({
+		pan: true, 
+		overview: <!--[$map_overview]-->,
+		zoom: 'small',
+		map_type: true 
+		});
+<!--[if $markers|@count gt 0]-->
+	function drawMarkers<!--[$map.id]-->() {
+	<!--[foreach from=$markers item="marker"]-->
+		<!--[if $marker.lat ne "" and $marker.lng ne ""]-->
+	var marker<!--[$marker.id]--> = new Marker( new LatLonPoint(<!--[$marker.lat]-->,<!--[$marker.lng]-->));
+	marker<!--[$marker.id]-->.setLabel("<!--[$marker.title]-->");
+		<!--[if $marker.title ne "" or $marker.text ne ""]-->	
+	marker<!--[$marker.id]-->.setInfoBubble("<strong><!--[$marker.title|escape:javascript|pnvarprepfordisplay]--></strong>:<br /><!--[$marker.text|escape:javascript]--><!--[if $marker.placename ne "" and $marker.id gt 0]--><hr /><small><!--[$marker.placename]--> <!--[/if]--><!--[if ($map.optionaltable eq 1  and $marker.id gt 0) or ($uid eq $map.uid and $marker.id gt 0) or ($marker.uid eq $uid)]--><br /><a href=<!--[pnmodurl fqurl="true" modname="MyMap" type="user" func="display" command="edit" authid=$authid mid=$map.id id=$marker.id]--> >[<!--[pnml name="_MYMAPEDIT"]-->]</a>, <a href=<!--[pnmodurl fqurl="true" modname="MyMap" type="user" func="display" command="delete" authid=$authid mid=$map.id pid=$marker.id]--> onclick=\"return confirm('<!--[pnml name="_MYMAPREALLYDELETE"]-->')\">[<!--[pnml name="_MYMAPDELETE"]-->]</a></small><!--[/if]-->");
+			<!--[/if]-->
+		<!--[/if]-->
+	map<!--[$map.id]-->.addMarker(marker<!--[$marker.id]-->);
+//EM Start
+// To be improved: handling of non google maps
+    GEvent.addListener(marker<!--[$marker.id]-->.proprietary_marker, "click", function() {
+       var f = document.getElementById('pnFormForm');
+       f.title.value = "<!--[$marker.title]-->";
+       f.text.value = "<!--[$marker.text]-->";
+       f.countrycode.value = "<!--[$marker.countrycode]-->";
+       f.postalcode.value = "<!--[$marker.postalcode]-->";
+       f.placename.value = "<!--[$marker.placename]-->";
+       f.lat.value = <!--[$marker.lat]-->;
+       f.lng.value = <!--[$marker.lng]-->;
+       f.id.value = <!--[$marker.id]-->;
+       f.mid.value = <!--[$marker.mid]-->;
+       f.date.value = "<!--[$marker.date]-->";
+//    [uid] => 5
+	   googlemapPasteLink(<!--[$marker.mid]-->, <!--[$marker.id]-->, "<!--[$targetID]-->");
+    });
+//EM End
+	<!--[/foreach]-->
+	}
+	drawMarkers<!--[$map.id]-->();
+<!--[/if]-->
+
+<!--[if $waypoints|@count gt 1]-->
+	change('<!--[$map.url_wps]-->','mymap_wps_<!--[$map.id]-->');
+<!--[elseif $waypoints|@count eq 1]-->
+	<!--[foreach from=$waypoints item="waypoint"]-->
+	var markerX<!--[$waypoint.id]--> = new Marker( new LatLonPoint(<!--[$waypoint.lat]-->,<!--[$waypoint.lng]-->));
+	map<!--[$map.id]-->.addMarker(markerX<!--[$waypoint.id]-->);
+	<!--[/foreach]-->
+	$('mymap_indicator_<!--[$map.id]-->').hide();
+<!--[else]-->
+	$('mymap_indicator_<!--[$map.id]-->').hide();
+<!--[/if]-->
+
+	map<!--[$map.id]-->.addEventListener('click', function(p) { 
+		var point = p.toString();
+		var coords = point.split(",");
+		var newZoom = map<!--[$map.id]-->.getZoom() + 1;
+<!--[if $clickzoom eq 1]-->
+	map<!--[$map.id]-->.setCenterAndZoom(p,newZoom);
+<!--[/if]-->
+	<!--[if $hook ne "1"]-->
+	document.getElementById("lat").value = coords[0];	   
+	document.getElementById("lng").value = coords[1];
+	<!--[/if]-->
+  	});
+
+	map<!--[$map.id]-->.autoCenterAndZoom();
+<!--[if ($markers|@count eq 1 and $waypoints|@count eq 0) or ($markers|@count eq 0 and $waypoints|@count eq 1)]-->
+	map<!--[$map.id]-->.setZoom(<!--[$map.zoomfactor]-->);
+<!--[/if]-->
+</script>
+<!--[* Just for JS loading.. Will not display anything*]-->
+<div id="mymap_wps_<!--[$map.id]-->"></div>

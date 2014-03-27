@@ -1,0 +1,62 @@
+<!--[* Smarty *]-->
+<!--[pnsecauthaction realm="0" comp="mediashare::" inst="::" level="ACCESS_READ" assign="authmediashare"]-->
+<!--[if $albumId != "" ]-->
+<!--[mediashare_getAlbum albumId=$albumId assign=album]-->
+<!--[/if]-->
+<!--[if $authmediashare]-->
+	<!--[if $image_locale != "" ]-->
+        	<!--[assign var='image_gauche' value="<a href='`$image_locale.url`'><img src='`$image_locale.thumbnailUrl`' class='thumbnail' /></a>" ]-->
+        <!--[/if]-->
+        <!--[if $image != "" ]-->
+        	<!--[if $image_gauche == "" ]-->
+        		<!--[assign var='image_gauche' value="<a href='$image'><img src='$image&thumbnail=1' alt='$imagetext' title='$imagetext' class='thumbnail' /></a>" ]-->
+        	<!--[/if]-->
+        <!--[/if]-->
+        <!--[if $image_media != ""]-->
+        	<!--[if $image_gauche == "" ]-->
+        		<!--[assign var='image_gauche' value="$image_media" ]-->
+        	<!--[/if]-->
+        <!--[/if]-->
+	<!--[if $image_locale2 != "" ]-->
+        	<!--[if $image_gauche == "" ]-->
+        		<!--[assign var='image_gauche' value="<a href='`$image_locale2.url`'><img src='`$image_locale2.thumbnailUrl`' class='thumbnail' /></a>" ]-->
+        	<!--[/if]-->
+        <!--[/if]-->
+        <!--[if $albumId != ""]-->
+        	<!--[if $image_gauche == "" ]-->
+			<!--[mediashare_mainItemThumbnail album=$album assign=image_gauche]-->
+        	<!--[/if]-->
+        <!--[/if]-->
+<!--[/if]-->
+   <table width="100%">
+     <tr>
+       <td style="padding: 2px;" valign="top" align="left" width="100%">
+       <!--[if $datefin != "" ]-->
+	  <!--[if $core.title eq '']-->
+      <a class="pn-title" style="text-decoration: none;" href="<!--[$core.fullURL]-->">du <!--[$Date|pndate_format:"%A %d %B %Y"]--> au <!--[$datefin|pndate_format:"%A %d %B %Y"]--></a>
+      <!--[else]-->
+      du <!--[$Date|pndate_format:"%A %d %B %Y"]--> au <!--[$datefin|pndate_format:"%A %d %B %Y"]-->: 
+      <!--[/if]-->
+      <!--[else]-->
+      <!--[if ($core.relation.dateFin != "") or ($core.relation.dateDebut != $Date) ]-->
+	  <!--[if $core.title eq '']-->
+      <a class="pn-title" style="text-decoration: none;" href="<!--[$core.fullURL]-->"><!--[$Date|pndate_format:"%A %d %B %Y"]--></a>
+      <!--[else]-->
+      <!--[$Date|pndate_format:"%A %d %B %Y"]-->:
+      <!--[/if]-->
+      <!--[/if]-->
+      <!--[/if]-->
+      <a href="<!--[$core.fullURL]-->"><!--[$core.title]--></a><br/>
+<!--[$Info|truncate:300:"... <a class=\"pn-title\" style=\"text-decoration: none;\" href=\"`$core.fullURL`\">Tout lire</a>":false]-->&nbsp;
+       </td>
+       <td rowspan='2' style="padding: 2px;" valign="top">
+        <!--[$image_gauche]-->
+       </td>
+     </tr>
+     <tr>
+     <td align="right" class="pn-sub" valign="bottom">
+      <!--[nocache]--><!--[$core.editThis]--><!--[/nocache]-->
+     </tr>
+    </table>
+
+

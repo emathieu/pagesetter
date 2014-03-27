@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>Map selection</title>
+<link rel="stylesheet" href="<!--[$stylepath]-->/style.css" type="text/css" media="screen,projection,print" />
+<script type="text/javascript" src="modules/MyMap/javascript/mxn.js?(googlev3)"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<!--[$googlemapApiKey]-->&amp;sensor=false"></script>
+<script type="text/javascript" src="modules/pagesetter/pnjavascript/findmymap.js"></script>
+<script type="text/javascript" src="javascript/ajax/prototype.js"></script>
+<!--[if $modCssURL != '']-->
+<link rel="StyleSheet" href="<!--[$modCssURL]-->" type="text/css"/>
+<!--[/if]-->
+<!--[if $themeCssURL != '']-->
+<link rel="StyleSheet" href="<!--[$themeCssURL]-->" type="text/css"/>
+<!--[/if]-->
+
+</head>
+
+<body>
+<div id="mapheader<!--[$map.id]-->" style="width:<!--[$map.width]-->px;" class="mymap_mapheader"></div>
+<div id="mymap_indicator_<!--[$map.id]-->" class="mymap_indicator" style="background-image: url(modules/MyMap/pnimages/ajax.gif)"></div>
+<!-- mapheader -->
+<div id="map<!--[$map.id]-->" style="background-color:#ffffff;width:<!--[$map.width]-->px;height:<!--[$map.height]-->px;"></div>
+<div id="mymap_export<!--[$map.id]-->" class="mymap_exportpopup" style="position: fixed; display: none; z-index: 1100;"> <!--[pnml name="_MYMAPWAITFOREXPORT"]--><br />
+<br />
+<img src="modules/MyMap/pnimages/ajax.gif" /></div>
+<div id="mymap_addmarkers">
+<form id="pnFormForm">
+<table>
+	<tr>
+		<td><label for="lat">Latitude</label>:</td>
+		<td><input type="text" id="lat" name="lat" maxlength="30" class="text" value="<!--[$lat]-->" /></td>
+	</tr>
+	<tr>
+		<td><label for="lng">Longitude</label>:</td>
+		<td><input type="text" id="lng" name="lng" maxlength="30" class="text" value="<!--[$lng]-->" /></td>
+	</tr>
+</table>
+<input type="button" name="plg10_update" value="Update" onclick="return pnFormDoPostBack()" />
+<script type="text/javascript">
+<!--
+function pnFormDoPostBack()
+{
+	googlemapPasteLink(lat.value, lng.value, "<!--[$targetID]-->", "<!--[$dataType]-->");
+}
+// -->
+</script></form>
+</div>
+<!--[pnsecgenauthkey assign="authid"]-->
+<script type="text/javascript">
+<!--
+<!--[include file="mymap_user_select_map_js_code.html"]-->
+-->
+</script>
+<!--[* Just for JS loading.. Will not display anything*]-->
+<div id="mymap_wps_<!--[$map.id]-->"></div>
+</body>
+</html>

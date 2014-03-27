@@ -1,0 +1,16 @@
+
+<!-- Start modules/pagesetter/pntemplates/__template-full.html -->
+<h1><!--[$core.title]--></h1>
+Tag: <!--[$tag]--><br/>
+
+<br/><br/>
+
+<!--[$core.printThis]--> | <!--[$core.sendThis]--> | Hits: <!--[nocache]--><!--[$core.hitCount]--><!--[/nocache]--> | <!--[nocache]--><!--[$core.editThis]--><!--[/nocache]-->
+
+
+<!--[if $core.useDisplayHooks]-->
+<!--[pnmodurl modname=pagesetter func=viewpub tid=$core.tid pid=$core.pid assign=viewUrl]-->
+<!--[pnmodcallhooks hookobject=item hookaction=display hookid=$core.uniqueId module=pagesetter returnurl=$viewUrl]-->
+<!--[/if]-->
+
+<!-- End modules/pagesetter/pntemplates/__template-full.html -->

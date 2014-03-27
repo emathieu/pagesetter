@@ -1,0 +1,203 @@
+<!--[* Smarty *]-->
+<!--[pnsecauthaction realm="0" comp="mediashare::" inst="::" level="ACCESS_READ" assign="authmediashare"]-->
+<!--[pnsecauthaction realm="0" comp="pagesetter::" inst="4::" level="ACCESS_EDIT" assign="auth"]-->
+<!--[if $albumId != "" ]-->
+<!--[mediashare_getAlbum albumId=$albumId assign=album]-->
+<!--[/if]-->
+<table style="border: 1px solid #cccccc;" cellspacing="0" width="100%">
+ <tr>
+  <td style="background-color: #f0f0f0;">
+   <table width="100%" border=0>
+    <tr>
+     <td width="75%">
+      <a class="pn-title" style="text-decoration: none;" href="<!--[$core.fullURL]-->"><!--[$core.title]--></a>
+     </td>
+     <td width="25%" align="right">
+      <!--[if $datefin != "" and $Date != $datefin ]-->
+      du <!--[$Date|pndate_format:"%A %d %B %Y"]--><br />au <!--[$datefin|pndate_format:"%A %d %B %Y"]-->
+      <!--[else]-->
+      <!--[$Date|pndate_format:"%A %d %B %Y"]-->
+      <!--[/if]-->
+     </td>
+    </tr>
+   </table>
+  </td>
+ </tr>
+ <tr>
+  <td>
+   <table width="100%">
+     <tr>
+       <td style="padding: 5px;" rowspan="2">
+        <!--[if $image_locale != "" ]-->
+        <a href="<!--[$image_locale.url]-->"><img src="<!--[$image_locale.thumbnailUrl]-->" align="top" border="0"></a><br />
+         <!--[elseif $image_media != "" and $authmediashare]-->
+        <!--[$image_media]-->
+        <!--[elseif $albumId != "" and $authmediashare]-->
+		<!--[mediashare_mainItemThumbnail album=$album]--><br />
+        <!--[elseif $core.topic.image != "" ]-->
+        <a href="index.php?module=pagesetter&topic=<!--[$core.topic.id]-->">
+        <img src="images/topics/<!--[$core.topic.image]-->" alt="<!--[$core.topic.text]-->" title="<!--[$core.topic.text]-->" align="left" border="0">
+        </a>
+        <!--[/if]-->
+       </td>
+       <td style="padding: 5px;">
+        <!--[$teaser]-->
+        <!--[$Info]-->
+<!--[pagesetter_createFilter filter="Journal:rel:`$core.pid`" assign=f]-->
+<!--[pagesetter_readpubCount tid=4 filter=$f assign=pubCount]-->
+<!--[if $pubCount > 0]-->
+<br />
+<!--[if $critere.value == 1]-->
+<!--[pagesetter_inlinePageList tid=4 filter=$f tpl=inlist orderby=Date:asc pubcnt=14 dateDebut=$Date dateFin=$datefin]-->
+<!--[elseif $critere.value == 2]-->
+<!--[pagesetter_inlinePageList tid=4 filter=$f tpl=inlist orderby=Date:desc pubcnt=14 dateDebut=$Date dateFin=$datefin]-->
+<!--[elseif $critere.value == 3]-->
+<!--[pagesetter_inlinePageList tid=4 filter=$f tpl=inlist orderby=index:asc pubcnt=14 dateDebut=$Date dateFin=$datefin]-->
+<!--[else]-->
+<!--[pagesetter_inlinePageList tid=4 filter=$f tpl=inlist orderby=Date:asc,Titre:asc pubcnt=14 dateDebut=$Date dateFin=$datefin]-->
+<!--[/if]-->
+<!--[/if]-->
+       </td>
+       <td style="padding: 5px;" rowspan="2" align="right">
+        <!--[if $image_locale2 != "" ]-->
+        <a href="<!--[$image_locale2.url]-->"><img src="<!--[$image_locale2.thumbnailUrl]-->" align="top" border="0" /></a>
+         <!--[elseif $image_media2 != "" and $authmediashare]-->
+        <!--[$image_media2]-->
+        <!--[elseif $video_mediashare != "" and $authmediashare]-->
+        <table><tr><td align="center"><!--[$video_mediashare]--></td></tr><tr><td align="center" class="pn-sub">Cliquez sur l'image pour voir la video</td></tr></table>
+        <!--[elseif $image_locale != "" ]-->
+        <!--[if $albumId != "" and $authmediashare]-->
+		<!--[mediashare_mainItemThumbnail album=$album]-->
+        <!--[/if]-->
+        <!--[/if]-->
+       </td>
+     </tr>
+     <!--[if $image_locale3 != "" or ($image_media3 != "" and $authmediashare) ]-->
+     <tr>
+       <td style="padding: 5px;" valign="top" align="center">
+		<!--[if $image_locale3 != "" ]-->
+        <a href="<!--[$image_locale3.url]-->"><img src="<!--[$image_locale3.thumbnailUrl]-->" align="top" border="0"></a>
+        <!--[elseif $image_media3 != "" and $authmediashare]-->
+        <!--[$image_media3]-->
+        <!--[/if]-->
+       </td>
+      </tr>
+      <!--[/if]-->
+    </table>
+  </td>
+ </tr>
+ <tr>
+  <td style="background-color: #f0f0f0;">
+   <table width="100%" border=0>
+    <tr>
+     <td width="100%" class="pn-sub" colspan="5">
+      Ecrit par: <!--[$core.author]-->
+      <!--[$core.created|pndate_format:"%A %d %B %Y"]-->
+     </td>
+    </tr>
+    <tr>
+     <td width="20%" align="center" class="pn-sub" valign="top">
+      <!--[if $fichier != "" ]-->
+      <a href="<!--[$fichier.url]-->">
+      <!--[$fichier.type|ps_icon]-->
+      <!--[$texte_fichier]--></a>
+      <!--[if $fichier2 != "" ]-->
+      <br /><a href="<!--[$fichier2.url]-->">
+      <!--[$fichier2.type|ps_icon]-->
+      <!--[$texte_fichier2]--></a>
+      <!--[/if]-->
+      <!--[if $fichier3 != "" ]-->
+      <br /><a href="<!--[$fichier3.url]-->">
+      <!--[$fichier3.type|ps_icon]-->
+      <!--[$texte_fichier3]--></a>
+      <!--[/if]-->
+      <!--[else]-->
+      &nbsp;
+      <!--[/if]-->
+     </td>
+     <td width="20%" align="center" class="pn-sub" valign="top">
+      <!--[if $texte_reference != "" ]-->
+      	<!--[assign var='lien1' value="<a href='$url_reference' target='_blank'>$texte_reference</a>" ]-->      
+      <!--[/if]-->
+      <!--[if $web_link1 != "" ]-->
+      	<!--[if $lien1 == "" ]-->
+      		<!--[web_link lid=$web_link1 assign='lien1']-->      
+      	<!--[else]-->       
+      		<!--[web_link lid=$web_link1 assign='lien2']-->      
+      	<!--[/if]-->
+      <!--[/if]-->
+      <!--[if $web_link2 != "" ]-->
+      	<!--[if $lien1 == "" ]-->
+      		<!--[web_link lid=$web_link2 assign='lien1']-->      
+      	<!--[elseif $lien2 == "" ]-->       
+      		<!--[web_link lid=$web_link2 assign='lien2']-->      
+      	<!--[/if]-->
+      <!--[/if]-->
+      <!--[if $texte_reference2 != "" ]-->
+      	<!--[if $lien1 == "" ]-->
+      		<!--[assign var='lien1' value="<a href='$url_reference2' target='_blank'>$texte_reference2</a>" ]-->      
+      	<!--[elseif $lien2 == "" ]-->       
+      		<!--[assign var='lien2' value="<a href='$url_reference2' target='_blank'>$texte_reference2</a>" ]-->      
+      	<!--[/if]-->
+      <!--[/if]-->
+      <!--[if $lien2 != "" ]-->
+      	Sites int&eacute;ressants:<br />
+      	<!--[$lien1]--> | <!--[$lien2]-->
+      <!--[elseif $lien1	 != "" ]-->
+      	Site int&eacute;ressant:<br />
+      	<!--[$lien1]-->
+      <!--[/if]-->
+      <!--[if $miroir != "" ]-->
+      <br /><a href="index.php?module=PostWrap&amp;page=miroir/<!--[$miroir]-->">Miroir</a>
+      <!--[/if]-->
+     </td>
+     <td width="20%" align="center" class="pn-sub" valign="top">
+      <!--[pagesetter_createFilter filter="autrejournal:rel:`$core.pid`" assign=f]-->
+      <!--[pagesetter_readpubCount tid=1 filter=$f assign=pubCount1]-->
+      <!--[pagesetter_readpubCount tid=4 filter=$f assign=pubCount4]-->
+      <!--[if $autrepub != "" || $autrepub2 != "" || $pubCount1 > 0 || $pubCount4 > 0]-->
+      A lire aussi:<br />
+      <!--[/if]-->
+      <!--[if $pubCount1 > 0]-->
+      <!--[pagesetter_inlinePageList tpl=relatedList tid=1 filter=$f orderby=Date:asc,Titre:asc pubcnt=14 dateDebut=$Date dateFin=$datefin]-->
+      <!--[else]-->
+      <!--[if $autrepub != ""]-->
+      <!--[$autrepub]-->
+      <!--[/if]-->
+      <!--[if $autrepub2 != ""]-->
+      <!--[if $autrepub != ""]--><br /><!--[/if]-->
+      <!--[$autrepub2]-->
+      <!--[/if]-->
+      <!--[/if]-->
+      <!--[if $pubCount4 > 0]-->
+      <!--[if $autrepub != "" || $autrepub2 != "" || $pubCount1 > 0 ]--><br /><!--[/if]-->
+      <!--[pagesetter_inlinePageList tpl=relatedList tid=4 filter=$f orderby=Date:asc,Titre:asc pubcnt=14 dateDebut=$Date dateFin=$datefin]-->
+      <!--[/if]-->
+     </td>
+     <td width="20%" align="center" class="pn-sub" valign="top">
+      <!--[if $albumId != "" and $authmediashare]-->
+      <a href="<!--[mediashare_albumLink album=$album mode='url']-->">Photos</a>
+      <!--[/if]-->
+	  <!--[pagesetter_createFilter filter="articles:rel:`$core.pid`" assign=f]-->
+	  <!--[pagesetter_readpubCount tid=10 filter=$f assign=pubCount]-->
+      <!--[if $pubCount > 0]-->
+     	<!--[if $albumId != "" and $authmediashare]--><br /><!--[/if]-->
+        <a href="<!--[pagesetter_relatedMapLink tid=10 filter="articles:rel:`$core.pid`"]-->">Carte</a>
+      <!--[/if]-->
+     </td>
+     <td width="20%" align="right" class="pn-sub" valign="top">
+      <!--[nocache]--><!--[$core.editThis]-->
+    <!--[if $auth]--> | <A HREF="index.php?module=pagesetter&func=pubedit&tid=4&goback=1">Ajouter une page</A>
+    <!--[/if]--><!--[/nocache]-->&nbsp;|&nbsp;<!--[$core.printThis]-->
+     </td>
+    </tr>
+    <tr>
+     <td width="100%" colspan=5 class="pn-sub">
+<!--[pagesetter_EZComments]-->
+     </td>
+    </tr>
+   </table>
+  </td>
+ </tr>
+</table>
+<p>

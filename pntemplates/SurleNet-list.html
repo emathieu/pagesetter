@@ -1,0 +1,64 @@
+<!--[* Smarty *]-->
+<table style="border: 1px solid #cccccc;" cellspacing="0" width="100%">
+ <tr>
+  <td style="background-color: #f0f0f0;">
+   <table width="100%" border=0>
+    <tr>
+     <td width="75%">
+      <a class="pn-title" style="text-decoration: none;" href="<!--[$core.fullURL]-->"><!--[$titre]--></a>
+     </td>
+     <td width="25%" align="right">
+      <!--[if $datefin != "" ]-->
+      du <!--[$Date|pndate_format:"%A %d %B %Y"]--><br>au <!--[$datefin|pndate_format:"%A %d %B %Y"]-->
+      <!--[else]-->
+      <!--[$Date|pndate_format:"%A %d %B %Y"]-->
+      <!--[/if]-->
+     </td>
+    </tr>
+   </table>
+  </td>
+ </tr>
+ <tr>
+  <td>
+   <table width="100%">
+     <tr>
+       <td style="padding: 5px;" rowspan="2">
+        <!--[if $image != "" ]-->
+        <a href="<!--[$image.url]-->"><img src="<!--[$image.thumbnailUrl]-->" align="top" border="0"></a><br>
+        <!--[/if]-->
+       </td>
+       <td style="padding: 5px;">
+        <!--[$teaser]-->
+        <!--[$texte|truncate:1000:"... <a class=\"pn-title\" style=\"text-decoration: none;\" href=\"`$core.fullURL`\">Tout lire</a>":false]-->
+       </td>
+       <td style="padding: 5px;" rowspan="2" align="right">
+       <!--[if $image2 != "" ]-->
+        <a href="<!--[$image2.url]-->"><img src="<!--[$image2.thumbnailUrl]-->" align="top" border="0"></a>
+        <!--[/if]-->
+       </td>
+     </tr>
+    </table>
+   </td>
+ </tr>
+ <tr>
+  <td style="background-color: #f0f0f0;">
+   <table width="100%" border=0>
+    <tr>
+     <td width="100%" class="pn-sub" colspan="5">
+      Ecrit par: <!--[$core.author]-->
+      <!--[$core.created|pndate_format:"%A %d %B %Y"]-->
+     </td>
+     <td width="20%" align="right" class="pn-sub" valign="bottom">
+      <!--[nocache]--><!--[$core.editThis]--><!--[/nocache]-->&nbsp;|&nbsp;<!--[$core.printThis]-->
+     </td>
+    </tr>
+    <tr>
+     <td width="100%" colspan=5 class="pn-sub">
+      <!--[pagesetter_EZComments]-->
+     </td>
+    </tr>
+   </table>
+  </td>
+ </tr>
+</table>
+<p>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<workflow>
+
+	<title>wismar</title>
+	<description>Abwandlung des Standard-Workflows. Es gibt die Zustände
+		eingereichter Einträge und final freigegebenen Publikationen.
+		Unvertrauliche Korrekturen an publizierten Seiten sind nicht erlaubt.
+		Unterschiede zu Standard:
+		* keine Mail-Notification
+		* direkte Freigabe
+		nach Einreichung
+  </description>
+
+	<states>
+
+		<state id="waiting">
+			<title>Waiting</title>
+			<description>Content has been submitted and is waiting for acceptance</description>
+		</state>
+
+		<state id="approved">
+			<title>Approved</title>
+			<description>Content has been approved is available online</description>
+		</state>
+
+	</states>
+
+
+	<actions>
+
+		<!-- From initial state -->
+
+		<action id="approve">
+			<title>Submit+Approve</title>
+			<description>Submit new content and approve immediately</description>
+			<permission>moderator</permission>
+
+			<nextState>approved</nextState>
+			<operation online="1">createPublication</operation>
+		</action>
+
+		<action id="submit">
+			<title>Submit</title>
+			<description>Submit new content for acceptance by the local moderator</description>
+			<permission>author</permission>
+
+			<nextState>approved</nextState>
+			<operation online="1">createPublication</operation>
+		</action>
+
+		<!-- State: waiting -->
+
+		<action id="approve">
+			<title>Approve</title>
+			<description>Approve publication for immediate publishing</description>
+			<permission>moderator</permission>
+			<state>waiting</state>
+
+			<nextState>approved</nextState>
+			<online>1</online>
+			<operation>moveOthersToDepot</operation>
+			<operation>updatePublication</operation>
+		</action>
+
+		<action id="reject">
+			<title>Reject</title>
+			<description>Reject and delete submitted content</description>
+			<permission>moderator</permission>
+			<state>waiting</state>
+
+			<operation>eraseRevision</operation>
+		</action>
+
+		<action id="update">
+			<title>Update</title>
+			<description>Save content with no workflow change</description>
+			<permission>author and owner or editor or moderator</permission>
+			<state>waiting</state>
+
+			<operation>updatePublication</operation>
+		</action>
+
+		<!-- State: approved -->
+
+		<action id="updateApprove">
+			<title>Update and Approve</title>
+			<description>Update content and approve for immediate publishing</description>
+			<permission>author and owner or editor or moderator</permission>
+			<state>approved</state>
+
+			<online>0</online>
+			<operation>moveToDepot</operation>
+			<operation nextState="approved" online="1">createNewRevision</operation>
+		</action>
+
+		<action id="update">
+			<title>Update</title>
+			<description>Update content for later publishing</description>
+			<permission>author and owner or editor or moderator</permission>
+			<state>approved</state>
+
+			<operation nextState="approved">createNewRevision</operation>
+		</action>
+
+		<action id="delete">
+			<title>Delete</title>
+			<description>Delete publication</description>
+			<permission>author and owner or editor or moderator</permission>
+			<state>approved</state>
+
+			<online>0</online>
+			<operation>moveToDepot</operation>
+			<operation>deletePublication</operation>
+		</action>
+
+		<action id="online">
+			<title>Go online</title>
+			<description>Set publication online</description>
+			<permission>author and owner or editor or moderator</permission>
+			<state>approved</state>
+
+			<online>1</online>
+		</action>
+
+		<action id="offline">
+			<title>Take offline</title>
+			<description>Set publication offline</description>
+			<permission>author and owner or editor or moderator</permission>
+			<state>approved</state>
+
+			<online>0</online>
+		</action>
+
+	</actions>
+
+
+</workflow>

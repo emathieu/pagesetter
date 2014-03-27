@@ -1,0 +1,30 @@
+
+<!-- Start modules/pagesetter/pntemplates/__template-full.html -->
+<h1><!--[txt2png string=$core.title]--></h1>
+Lui: <!--[$lui]--><br/>
+Elle: <!--[$elle]--><br/>
+Leurs enfants: <!--[$enfants]--><br/>
+Détails: <!--[$details]--><br/>
+<br/>
+<!--[pagesetter_createFilter filter="amis:rel:`$core.pid`" assign=f]-->
+<!--[pagesetter_readpubCount tid=1 filter=$f assign=pubCount]-->
+<!--[if $pubCount > 0]-->
+<!--[pagesetter_inlinePubList tid=1 filter=$f orderby=Date:desc,Titre:asc pubcnt=1000]-->
+<!--[/if]-->
+<br/>
+<!--[pagesetter_createFilter filter="amis:rel:`$core.pid`" assign=f]-->
+<!--[pagesetter_readpubCount tid=4 filter=$f assign=pubCount]-->
+<!--[if $pubCount > 0]-->
+<!--[pagesetter_inlinePubList tid=4 filter=$f orderby=Date:desc,Titre:asc pubcnt=1000 tpl=simpleList]-->
+<!--[/if]-->
+<br/><br/>
+
+<!--[$core.printThis]--> | <!--[$core.sendThis]--> | Hits: <!--[nocache]--><!--[$core.hitCount]--><!--[/nocache]--> | <!--[nocache]--><!--[$core.editThis]--><!--[/nocache]-->
+
+
+<!--[if $core.useDisplayHooks]-->
+<!--[pnmodurl modname=pagesetter func=viewpub tid=$core.tid pid=$core.pid assign=viewUrl]-->
+<!--[pnmodcallhooks hookobject=item hookaction=display hookid=$core.uniqueId module=pagesetter returnurl=$viewUrl]-->
+<!--[/if]-->
+
+<!-- End modules/pagesetter/pntemplates/__template-full.html -->
